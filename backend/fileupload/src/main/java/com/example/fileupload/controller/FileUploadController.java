@@ -17,6 +17,6 @@ public class FileUploadController {
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         fileStorageService.storeFileAsync(file);
-        refturn ResponseEntity.ok("Upload request received. Processing asynchronously.");
+        return ResponseEntity.ok("Upload request received. Processing asynchronously.");
     }
 }

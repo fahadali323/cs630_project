@@ -1,11 +1,12 @@
-//Model 
-package com.example.fileUpload.model;
+
+// Model
+package com.example.fileupload.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name= "uploaded_files")
+@Table(name = "uploaded_files")
 public class UploadedFile {
 
     @Id
@@ -18,9 +19,9 @@ public class UploadedFile {
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
-        this.id =id;
+        this.id = id;
     }
 
     public String getFileName() {
@@ -29,10 +30,6 @@ public class UploadedFile {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public LocalDateTime getUploadTime() {
-        return uploadTime;
     }
 
     public LocalDateTime getUploadTime() {
