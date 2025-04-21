@@ -31,21 +31,30 @@ public class FileStorageService {
     }
 
     public void storeFileAsync(MultipartFile file) {
-        executorService.submit(() -> {
-            try {
-                // Save file to disk
-                Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-                Files.write(path, file.getBytes(), StandardOpenOption.CREATE);
+    executorService.submit(() -> {
+        try {
+            // Create directory if not exists (thread-safe fallback)
+            Path uploadPath = Paths.get(UPLOAD_DIR).toAbsolutePath().normalize();
+            Files.createDirectories(uploadPath);
 
-                // Save metadata to database
-                UploadedFile uploadedFile = new UploadedFile();
-                uploadedFile.setFileName(file.getOriginalFilename());
-                uploadedFile.setUploadTime(LocalDateTime.now());
-                repository.save(uploadedFile);
+            // Final file path
+            Path filePath = uploadPath.resolve(file.getOriginalFilename());
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+            // Write the file
+            Files.write(filePath, file.getBytes(), StandardOpenOption.CREATE);
+
+            // Save metadata to database
+            UploadedFile uploadedFile = new UploadedFile();
+            uploadedFile.setFileName(file.getOriginalFilename());
+            uploadedFile.setUploadTime(LocalDateTime.now());
+            repository.save(uploadedFile);
+
+            System.out.println("✅ File saved to: " + filePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    });
+}
+
 }
