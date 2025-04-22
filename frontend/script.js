@@ -44,7 +44,21 @@ function loadUploadedFiles() {
 
             data.forEach(file => {
                 const li = document.createElement("li");
-                li.textContent = `${file.fileName} — uploaded at ${file.uploadTime}`;
+
+                // ✅ Create a download link
+                const link = document.createElement("a");
+                link.href = `http://localhost:8080/api/files/${encodeURIComponent(file.fileName)}`;
+                link.textContent = file.fileName;
+                link.download = file.fileName;
+                link.style.marginRight = "10px";
+
+                li.appendChild(link);
+
+                // ✅ Add upload time
+                const meta = document.createElement("span");
+                meta.textContent = ` — uploaded at ${file.uploadTime}`;
+                li.appendChild(meta);
+
                 list.appendChild(li);
             });
         })
@@ -52,4 +66,6 @@ function loadUploadedFiles() {
             console.error("Error loading files:", error);
         });
 }
+
+
 
