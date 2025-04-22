@@ -47,6 +47,7 @@ public class FileStorageService {
             UploadedFile uploadedFile = new UploadedFile();
             uploadedFile.setFileName(file.getOriginalFilename());
             uploadedFile.setUploadTime(LocalDateTime.now());
+            uploadedFile.setFilePath(filePath.toString());
             repository.save(uploadedFile);
 
             System.out.println("✅ File saved to: " + filePath);
