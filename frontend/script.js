@@ -1,8 +1,10 @@
-function uploadFile(){
+function uploadFile(event) {
+    if (event) event.preventDefault();
+
     const fileInput = document.getElementById("fileInput");
     const status = document.getElementById("status");
 
-    if (fileInput.files.length ==0) {
+    if (fileInput.files.length === 0) {
         status.textContent = "Please select a file!";
         status.style.color = "red";
         return;
@@ -12,11 +14,16 @@ function uploadFile(){
     let formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:8080/api/upload" , {
+    fetch("http://localhost:8080/api/upload", {
         method: "POST",
         body: formData
     })
-    .then(response => response.text())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Upload failed with status: " + response.status);
+        }
+        return response.text();
+    })
     .then(data => {
         status.textContent = data;
         status.style.color = "green";
@@ -24,5 +31,6 @@ function uploadFile(){
     .catch(error => {
         status.textContent = "Upload failed!";
         status.style.color = "red";
-    })
+        console.error("❌ Upload error:", error);
+    });
 }
