@@ -1,4 +1,5 @@
 function uploadFile(event) {
+    // Safely check if the event is passed (for future-proofing)
     if (event) event.preventDefault();
 
     const fileInput = document.getElementById("fileInput");
@@ -18,12 +19,7 @@ function uploadFile(event) {
         method: "POST",
         body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Upload failed with status: " + response.status);
-        }
-        return response.text();
-    })
+    .then(response => response.text())
     .then(data => {
         status.textContent = data;
         status.style.color = "green";
@@ -31,6 +27,5 @@ function uploadFile(event) {
     .catch(error => {
         status.textContent = "Upload failed!";
         status.style.color = "red";
-        console.error("❌ Upload error:", error);
     });
 }
