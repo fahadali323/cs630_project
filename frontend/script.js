@@ -23,9 +23,33 @@ function uploadFile(event) {
     .then(data => {
         status.textContent = data;
         status.style.color = "green";
+        loadUploadedFiles();
     })
     .catch(error => {
         status.textContent = "Upload failed!";
         status.style.color = "red";
     });
 }
+function loadUploadedFiles() {
+    fetch("http://localhost:8080/api/files")
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById("fileList");
+            list.innerHTML = "";
+
+            if (data.length === 0) {
+                list.innerHTML = "<li>No files uploaded yet.</li>";
+                return;
+            }
+
+            data.forEach(file => {
+                const li = document.createElement("li");
+                li.textContent = `${file.fileName} — uploaded at ${file.uploadTime}`;
+                list.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error("Error loading files:", error);
+        });
+}
+
