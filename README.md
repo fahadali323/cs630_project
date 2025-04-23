@@ -46,7 +46,7 @@ Web-based applications frequently need to manage user data input with low latenc
 - Ensures threads operate safely without race conditions.
 - Upload processing is thread-safe and resource-isolated.
 
-### Web-Based Frontend
+### Web-Based Frontend 
 - Clean HTML/CSS/JS interface for selecting and uploading files.
 - Displays uploaded file metadata in real time.
 
@@ -54,7 +54,7 @@ Web-based applications frequently need to manage user data input with low latenc
 - **Backend:** Java (Spring Boot)
 - **Database:** MySQL
 - **Concurrency:** Java Threads, ExecutorService
-- **Frontend:** HTML, CSS, JavaScript (Vanilla)
+- **Frontend:** HTML, CSS, JavaScript 
 
 ## Project Plan
 
